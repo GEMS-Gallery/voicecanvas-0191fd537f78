@@ -1,8 +1,19 @@
-import { backend } from "declarations/backend";
-
 const textInput = document.getElementById("textInput");
 const convertBtn = document.getElementById("convertBtn");
 const audioPlayer = document.getElementById("audioPlayer");
+
+// Simulated ElevenLabs API call
+async function simulateTextToSpeech(text) {
+  // This is a placeholder function that simulates the API call
+  // In a real implementation, this would make an actual API request
+  console.log("Simulating text-to-speech conversion:", text);
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      // Return a dummy audio URL
+      resolve("data:audio/mp3;base64,SGVsbG8sIHRoaXMgaXMgYSBkdW1teSBhdWRpbyBmaWxlLg==");
+    }, 1000);
+  });
+}
 
 convertBtn.addEventListener("click", async () => {
   const text = textInput.value;
@@ -12,10 +23,8 @@ convertBtn.addEventListener("click", async () => {
   }
 
   try {
-    const hexEncodedText = await backend.textToSpeech(text);
-    // Note: This won't produce valid audio data, it's just a placeholder
-    const audioSrc = `data:audio/wav;base64,${hexEncodedText}`;
-    audioPlayer.src = audioSrc;
+    const audioUrl = await simulateTextToSpeech(text);
+    audioPlayer.src = audioUrl;
   } catch (error) {
     console.error("Error converting text to speech:", error);
     alert("An error occurred while converting text to speech. Please try again.");

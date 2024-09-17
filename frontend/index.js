@@ -2,7 +2,9 @@ const textInput = document.getElementById("textInput");
 const convertTextBtn = document.getElementById("convertTextBtn");
 const textAudioPlayer = document.getElementById("textAudioPlayer");
 
-const speechInput = document.getElementById("speechInput");
+const audioFileInput = document.getElementById("audioFileInput");
+const modelIdInput = document.getElementById("modelIdInput");
+const voiceSettingsInput = document.getElementById("voiceSettingsInput");
 const convertSpeechBtn = document.getElementById("convertSpeechBtn");
 const speechAudioPlayer = document.getElementById("speechAudioPlayer");
 
@@ -12,16 +14,6 @@ async function simulateTextToSpeech(text) {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve("data:audio/mp3;base64,SGVsbG8sIHRoaXMgaXMgYSBkdW1teSBhdWRpbyBmaWxlLg==");
-    }, 1000);
-  });
-}
-
-// Simulated ElevenLabs API call for speech-to-speech
-async function simulateSpeechToSpeech(text) {
-  console.log("Simulating speech-to-speech conversion:", text);
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve("data:audio/mp3;base64,SGVsbG8sIHRoaXMgaXMgYW5vdGhlciBkdW1teSBhdWRpbyBmaWxlLg==");
     }, 1000);
   });
 }
@@ -43,14 +35,33 @@ convertTextBtn.addEventListener("click", async () => {
 });
 
 convertSpeechBtn.addEventListener("click", async () => {
-  const text = speechInput.value;
-  if (text.trim() === "") {
-    alert("Please enter some text to simulate speech input.");
+  const audioFile = audioFileInput.files[0];
+  const modelId = modelIdInput.value;
+  const voiceSettings = voiceSettingsInput.value;
+
+  if (!audioFile || !modelId || !voiceSettings) {
+    alert("Please provide all required inputs.");
     return;
   }
 
+  const form = new FormData();
+  form.append("model_id", modelId);
+  form.append("voice_settings", voiceSettings);
+  form.append("seed", "123");
+  form.append("audio", audioFile);
+
+  const options = {
+    method: 'POST',
+    headers: {
+      'xi-api-key': 'YOUR_API_KEY_HERE' // Replace with your actual API key
+    },
+    body: form
+  };
+
   try {
-    const audioUrl = await simulateSpeechToSpeech(text);
+    const response = await fetch('https://api.elevenlabs.io/v1/speech-to-speech/voice_id', options);
+    const audioBlob = await response.blob();
+    const audioUrl = URL.createObjectURL(audioBlob);
     speechAudioPlayer.src = audioUrl;
   } catch (error) {
     console.error("Error converting speech to speech:", error);

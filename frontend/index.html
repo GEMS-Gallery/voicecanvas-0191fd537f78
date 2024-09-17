@@ -3,15 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Text to Speech App</title>
+    <title>Speech Conversion App</title>
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
     <div class="container">
-        <h1>Text to Speech</h1>
-        <textarea id="textInput" placeholder="Enter text here..."></textarea>
-        <button id="convertBtn">Convert to Speech</button>
-        <audio id="audioPlayer" controls></audio>
+        <h1>Speech Conversion</h1>
+        <div class="conversion-section">
+            <h2>Text to Speech</h2>
+            <textarea id="textInput" placeholder="Enter text here..."></textarea>
+            <button id="convertTextBtn">Convert to Speech</button>
+            <audio id="textAudioPlayer" controls></audio>
+        </div>
+        <div class="conversion-section">
+            <h2>Speech to Speech</h2>
+            <textarea id="speechInput" placeholder="Enter text to simulate speech input..."></textarea>
+            <button id="convertSpeechBtn">Convert Speech</button>
+            <audio id="speechAudioPlayer" controls></audio>
+        </div>
     </div>
     <script type="module" src="index.js"></script>
 </body>

@@ -1,0 +1,3 @@
+service : {
+  textToSpeech: (text) -> (text);
+}
